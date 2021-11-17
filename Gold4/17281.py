@@ -1,7 +1,9 @@
 import sys
-input = sys.stdin.readline
 from collections import deque
 import itertools
+
+input = sys.stdin.readline
+
 
 def main():
     totalInning = int(input())
@@ -13,15 +15,18 @@ def main():
         nonlocal curr
         if curr == 8:
             curr = 0
-        else: curr += 1
+        else:
+            curr += 1
 
     def hit(num):
         nonlocal score
         for i in range(num):
-            if i == 0: base.append(1)
-            else: base.append(0)
+            if i == 0:
+                base.append(1)
+            else:
+                base.append(0)
             score += base.popleft()
-        
+
     sequence = list(itertools.permutations(range(1, 9)))
 
     for i in range(len(sequence)):
@@ -40,8 +45,8 @@ def main():
                     if expected[i][batter[curr]] == 0:
                         calcCurr()
                         out += 1
-                        break 
-                    else: 
+                        break
+                    else:
                         hit(expected[i][batter[curr]])
                         calcCurr()
             base.clear()
