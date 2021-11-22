@@ -1,8 +1,11 @@
 import sys
 
+input = sys.stdin.readline
+
+
 def main():
-    n = int(sys.stdin.readline())
-    col = [0]*n
+    n = int(input())
+    col = [0] * n
 
     def isFit(x):
         for i in range(x):
@@ -14,12 +17,13 @@ def main():
 
     def dfs(s):
         nonlocal answer
-        if s == n: answer += 1 
+        if s == n:
+            answer += 1
         else:
             for i in range(n):
                 col[s] = i
                 if isFit(s):
-                    dfs(s+1)
+                    dfs(s + 1)
 
     dfs(0)
     print(answer)
