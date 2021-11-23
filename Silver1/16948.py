@@ -8,26 +8,23 @@ dy = [-2, -2, 0, 0, 2, 2]
 
 
 def func(n, start, dest):
-    visited = [[0] * n for _ in range(n)]
-    r, c = start
-    visited[r][c] = 1
-
-    result = 0
+    visited = [[-1] * n for _ in range(n)]
+    start_y, start_x = start
+    dest_y, dest_x = dest
+    visited[start_y][start_x] = 0
 
     que = deque()
     que.append(start)
     while que:
         y, x = que.popleft()
-        if (y, x) == dest:
-            result = visited[y][x]
         for i in range(6):
             nx = x + dx[i]
             ny = y + dy[i]
-            if 0 <= nx < n and 0 <= ny < n and visited[ny][nx] == 0:
+            if 0 <= nx < n and 0 <= ny < n and visited[ny][nx] == -1:
                 que.append((ny, nx))
                 visited[ny][nx] = visited[y][x] + 1
 
-    return result - 1 if result else -1
+    return visited[dest_y][dest_x]
 
 
 def main():
