@@ -3,7 +3,7 @@ from collections import deque
 
 input = sys.stdin.readline
 
-dn = (1, 10, 100, 1000)
+dn = (1, 10, 100, 1000, -1, -10, -100, -1000)
 
 
 def check(num):
@@ -26,16 +26,20 @@ def main():
             visited = [True] * 9000
             while que:
                 num, cnt = que.popleft()
+                print(num)
                 visited[num - 1000] = False
                 if num == dest:
                     return cnt
-                for i in range(4):
+                for i in range(8):
                     new_num = num + dn[i]
-                    if 1000 <= new_num < 10000 and visited[new_num - 1000]:
-                        if check(new_num):
-                            que.append((new_num, cnt + 1))
-                        else:
-                            que.append((new_num, cnt))
+                    if (
+                        1000 <= new_num < 10000
+                        and visited[new_num - 1000]
+                        and check(new_num)
+                    ):
+                        print(new_num)
+                        que.append((new_num, cnt + 1))
+
             return "Impossible"
 
         answers.append(bfs(start))

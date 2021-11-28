@@ -36,6 +36,8 @@ def main():
                 else:
                     dest = [i, j]
 
+    results = []
+
     def bfs(start):
         que = deque()
         que.append(start)
@@ -43,8 +45,9 @@ def main():
         while que:
             y, x, prev, cnt = que.popleft()
             visited[y][x] = 1
-            if (y, x) == dest:
-                return cnt
+            if [y, x] == dest:
+                results.append(cnt)
+                continue
             for i in range(4):
                 nx = x + dx[i]
                 ny = y + dy[i]
@@ -59,9 +62,9 @@ def main():
                         que.append((ny, nx, curr, cnt + 1))
                     else:
                         que.append((ny, nx, curr, cnt))
-        pArr(visited)
 
-    print(bfs(start + [(0, 0), 0]))
+    bfs(start + [[0, 0], 0])
+    print(min(results))
 
 
 main()
