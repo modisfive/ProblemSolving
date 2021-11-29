@@ -22,7 +22,6 @@ def main():
         que.append(start)
         while que:
             y, x = que.popleft()
-            mark[y][x] = mark_num
             cnt += 1
             for i in range(4):
                 nx = x + dx[i]
@@ -34,6 +33,7 @@ def main():
                     and mark[ny][nx] == -1
                 ):
                     que.append((ny, nx))
+                    mark[y][x] = mark_num
         count.append(cnt)
 
     for i in range(n):
