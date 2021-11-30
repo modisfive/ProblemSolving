@@ -3,30 +3,31 @@ import sys
 input = sys.stdin.readline
 
 
-def pArr(arr):
-    for i in arr:
-        print(i)
-
-
 def main():
     n, m = map(int, input().split())
     matrix_from = [list(map(int, input().strip())) for _ in range(n)]
     matrix_to = [list(map(int, input().strip())) for _ in range(n)]
-    matrix = [[0] * m for _ in range(n)]
 
-    if n < 3 or m < 3:
-        print(-1)
-        return
+    def flip(y, x):
+        for i in range(y - 1, y + 2):
+            for j in range(x - 1, x + 2):
+                matrix_to[i][j] = 1 - matrix_to[i][j]
+
+    answer = 0
+
+    for i in range(n - 2):
+        for j in range(m - 2):
+            if matrix_from[i][j] != matrix_to[i][j]:
+                answer += 1
+                flip(i + 1, j + 1)
 
     for i in range(n):
         for j in range(m):
             if matrix_from[i][j] != matrix_to[i][j]:
-                matrix[i][j] = 1
-    pArr(matrix_from)
-    print()
-    pArr(matrix_to)
-    print()
-    pArr(matrix)
+                print(-1)
+                return
+
+    print(answer)
 
 
 main()
