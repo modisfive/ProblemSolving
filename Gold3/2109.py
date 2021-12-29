@@ -1,30 +1,27 @@
 import sys
+import heapq
 
 input = sys.stdin.readline
-
-
-def pArr(arr):
-    for i in arr:
-        print(i)
 
 
 def main():
     n = int(input())
     matrix = [list(map(int, input().split())) for _ in range(n)]
 
-    matrix.sort(key=lambda x: x[1])
+    matrix.sort(key=lambda x: x[1], reverse=True)
 
-    length = matrix[-1][1]
+    heap = []
+    i = 0
+    answer = 0
 
-    print(length)
+    for day in range(10000, 0, -1):
+        while i < n and matrix[i][1] == day:
+            heapq.heappush(heap, (-matrix[i][0], matrix[i][0]))
+            i += 1
+        if heap:
+            answer += heapq.heappop(heap)[1]
 
-    for day in range(length):
-        temp = []
-        for arr in range(matrix):
-            if day <= arr[1]:
-                temp.append(arr)
-
-        temp.sort(key=lambda x: x[0])
+    print(answer)
 
 
 main()
