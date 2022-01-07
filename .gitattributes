@@ -1,11 +1,1 @@
-# Auto detect text files and perform LF normalization
-* text=auto
-<<<<<<< HEAD
-
-.vscode
-
-*.o
-*.a
-*.so
-=======
->>>>>>> a250d192c86265552cdf5e0dbce7568cec309fd0
+**/*.exe
