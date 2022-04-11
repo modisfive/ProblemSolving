@@ -3,6 +3,9 @@ from collections import deque
 
 input = sys.stdin.readline
 
+dx = (1, 0, -1, 0)
+dy = (0, 1, 0, -1)
+
 
 def pArr(arr):
     for i in arr:
@@ -13,10 +16,12 @@ def main():
     n = int(input())
     matrix = [list(map(int, input().split())) for _ in range(n)]
 
-    answer = []
+    def go(dy, dx):
+        cnt = 0
 
-    pArr(matrix)
+        while 
+    
 
 
-if __name__ == "__main__":
-    main()
+
+main()
