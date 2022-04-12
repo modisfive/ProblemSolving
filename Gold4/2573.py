@@ -1,56 +1,78 @@
 import sys
-import copy
-sys.setrecursionlimit(10**5)
+from collections import deque
 
-dx = [1, 0, -1, 0]
-dy = [0, -1, 0, 1]
+input = sys.stdin.readline
+
+dx = (1, 0, -1, 0)
+dy = (0, 1, 0, -1)
+
 
 def main():
-    m, n = map(int, sys.stdin.readline().split())
-    matrix = [list(map(int, sys.stdin.readline().split())) for _ in range(m)]
+    n, m = map(int, input().split())
+    matrix = [list(map(int, input().split())) for _ in range(n)]
 
-    def lump():
-        visited = [[0]*n for _ in range(m)]
-        answer = 0
-
-        def dfs(y, x):
-            visited[y][x] = 1
+    def bfs(p, visited):
+        y, x = p
+        visited[y][x] = -1
+        que = deque()
+        que.append((y, x))
+        cnt = 1
+        while que:
+            y, x = que.popleft()
             for i in range(4):
                 nx = x + dx[i]
                 ny = y + dy[i]
-                if matrix[ny][nx] != 0 and visited[ny][nx] == 0:
-                    dfs(ny, nx)
+                if (
+                    0 <= nx < m
+                    and 0 <= ny < n
+                    and visited[ny][nx] == 0
+                    and matrix[ny][nx] != 0
+                ):
+                    visited[ny][nx] = -1
+                    cnt += 1
+                    que.append((ny, nx))
+        return cnt
 
-        for i in range(1, m):
-            for j in range(1, n):
+    def check(total):
+        visited = [[0] * m for _ in range(n)]
+        for i in range(n):
+            for j in range(m):
                 if matrix[i][j] != 0 and visited[i][j] == 0:
-                    answer += 1
-                    dfs(i, j)
+                    cnt = bfs((i, j), visited)
+                    if cnt < total:
+                        return False
+                    else:
+                        return True
 
-        return answer
+    year = 0
 
-    def shrink():
-        tmparr = copy.deepcopy(matrix)
-        for i in range(1, m):
-            for j in range(1, n):
+    while True:
+        year += 1
+        temp = [[0] * m for _ in range(n)]
+        for i in range(n):
+            for j in range(m):
                 if matrix[i][j] != 0:
-                    tmp = 0
                     for k in range(4):
-                        nx = j + dx[k]
-                        ny = i + dy[k]
-                        if matrix[ny][nx] == 0: tmp += 1
-                    if tmparr[i][j] < tmp: tmparr[i][j] = 0
-                    else: tmparr[i][j] -= tmp
-        return tmparr
+                        ni = i + dy[k]
+                        nj = j + dx[k]
+                        if matrix[ni][nj] == 0:
+                            temp[i][j] += 1
 
-    result = 0                        
-    while(lump() < 2):
-        result += 1
-        matrix = shrink()
-    print(result)
-    
-    
+        zero_cnt = 0
+
+        for i in range(n):
+            for j in range(m):
+                matrix[i][j] = max(matrix[i][j] - temp[i][j], 0)
+                if matrix[i][j] == 0:
+                    zero_cnt += 1
+
+        if n * m == zero_cnt:
+            print(0)
+            return
+
+        if not check(n * m - zero_cnt):
+            print(year)
+            return
 
 
-if __name__ == "__main__":
-    main()
+main()
