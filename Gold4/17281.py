@@ -1,59 +1,44 @@
 import sys
-from collections import deque
-import itertools
+from itertools import permutations
 
 input = sys.stdin.readline
 
 
 def main():
-    totalInning = int(input())
-    expected = [list(map(int, input().split())) for _ in range(totalInning)]
+    total_inning = int(input())
+    expected = [list(map(int, input().split())) for _ in range(total_inning)]
 
-    totalScore = 0
+    answer = 0
+    tmp_list = list(map(list, permutations(range(1, 9))))
 
-    def calcCurr():
-        nonlocal curr
-        if curr == 8:
-            curr = 0
-        else:
-            curr += 1
-
-    def hit(num):
-        nonlocal score
-        for i in range(num):
-            if i == 0:
-                base.append(1)
-            else:
-                base.append(0)
-            score += base.popleft()
-
-    sequence = list(itertools.permutations(range(1, 9)))
-
-    for i in range(len(sequence)):
-        tmp = list(sequence[i])
-        tmp.insert(3, 0)
-        sequence[i] = tmp
-
-    for batter in sequence:
+    for tmp in tmp_list:
+        order = tmp[:3] + [0] + tmp[3:]
         score = 0
-        curr = 0
-        base = deque([0, 0, 0])
-        for i in range(totalInning):
+        current = 0
+        for inning in range(total_inning):
             out = 0
+            base1, base2, base3 = 0, 0, 0
             while out < 3:
-                while True:
-                    if expected[i][batter[curr]] == 0:
-                        calcCurr()
-                        out += 1
-                        break
-                    else:
-                        hit(expected[i][batter[curr]])
-                        calcCurr()
-            base.clear()
-        totalScore = max(totalScore, score)
+                result = expected[inning][order[current]]
+                if result == 0:
+                    out += 1
+                elif result == 1:
+                    score += base3
+                    base1, base2, base3 = 1, base1, base2
+                elif result == 2:
+                    score += base2 + base3
+                    base1, base2, base3 = 0, 1, base1
+                elif result == 3:
+                    score += base1 + base2 + base3
+                    base1, base2, base3 = 0, 0, 1
+                elif result == 4:
+                    score += base1 + base2 + base3 + 1
+                    base1, base2, base3 = 0, 0, 0
+                current = (current + 1) % 9
 
-    print(totalScore)
+        answer = max(answer, score)
+
+    print(answer)
 
 
-if __name__ == "__main__":
-    main()
+main()

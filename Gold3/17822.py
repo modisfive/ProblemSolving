@@ -3,11 +3,6 @@ import sys
 input = sys.stdin.readline
 
 
-def pArr(arr):
-    for i in arr:
-        print(i)
-
-
 def main():
     n, m, t = map(int, input().split())
     plates = [list(map(int, input().split())) for _ in range(n)]
