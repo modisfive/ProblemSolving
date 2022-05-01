@@ -6,11 +6,6 @@ dx = (0, 1, 1, 1, 0, -1, -1, -1)
 dy = (-1, -1, 0, 1, 1, 1, 0, -1)
 
 
-def pArr(arr):
-    for i in arr:
-        print(i)
-
-
 def main():
     n, m, k = map(int, input().split())
     matrix = [[[] for _ in range(n)] for _ in range(n)]
@@ -28,21 +23,8 @@ def main():
                     for fireball in matrix[i][j]:
                         y, x = i, j
                         m, s, d = fireball
-                        for _ in range(s):
-                            ny = y + dy[d]
-                            nx = x + dx[d]
-                            if 0 <= ny < n and 0 <= nx < n:
-                                y = ny
-                                x = nx
-                            elif 0 <= ny < n:
-                                y = ny
-                                x = n - abs(nx)
-                            elif 0 <= nx < n:
-                                x = nx
-                                y = n - abs(ny)
-                            else:
-                                x = n - abs(nx)
-                                y = n - abs(ny)
+                        x = (x + s * dx[d]) % n
+                        y = (y + s * dy[d]) % n
 
                         tmp[y][x].append((m, s, d))
 
