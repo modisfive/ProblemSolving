@@ -7,11 +7,6 @@ dx = (1, 0, -1, 0)
 dy = (0, 1, 0, -1)
 
 
-def pArr(arr):
-    for i in arr:
-        print(i)
-
-
 def main():
     n, m, fuel = map(int, input().split())
     matrix = [list(map(int, input().split())) for _ in range(n)]
@@ -60,7 +55,8 @@ def main():
             y, x = candidates[0]
             return (matrix[y][x] - 1, fuel - visited[y][x] + 1)
         else:
-            return -1
+            print(-1)
+            sys.exit(0)
 
     def go(start_idx, fuel):
         start_y, start_x, dest_y, dest_x = destinations[start_idx]
@@ -84,24 +80,16 @@ def main():
                         return (ny, nx, fuel + visited[ny][nx] - 1)
                     elif fuel != visited[ny][nx] - 1:
                         que.append((ny, nx))
-        return -1
+        print(-1)
+        sys.exit(0)
 
     y, x = start
 
-    while m != 0:
-        result = find((y, x), fuel)
-        if result == -1:
-            fuel = -1
-            break
-        idx, fuel = result
+    for _ in range(m):
+        idx, fuel = find((y, x), fuel)
         y, x, _, _ = destinations[idx]
         matrix[y][x] = 0
-        result = go(idx, fuel)
-        if result == -1:
-            fuel = -1
-            break
-        y, x, fuel = result
-        m -= 1
+        y, x, fuel = go(idx, fuel)
 
     print(fuel)
 
