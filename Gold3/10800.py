@@ -18,16 +18,16 @@ def main():
 
     j = 0
     for i in range(n):
-        a = balls[i]
-        b = balls[j]
+        pivot = balls[i]
+        ball = balls[j]
 
-        while b[1] < a[1]:
-            total += b[1]
-            colors[b[0]] += b[1]
+        while ball[1] < pivot[1]:
+            total += ball[1]
+            colors[ball[0]] += ball[1]
             j += 1
-            b = balls[j]
+            ball = balls[j]
 
-        points[a[2]] = total - colors[a[0]]
+        points[pivot[2]] = total - colors[pivot[0]]
 
     for p in points:
         print(p)
