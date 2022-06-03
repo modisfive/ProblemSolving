@@ -1,40 +1,43 @@
 import sys
-input = sys.stdin.readline
 from collections import deque
+
+input = sys.stdin.readline
 
 dx = [1, 1, 0, -1, -1, -1, 0, 1]
 dy = [0, -1, -1, -1, 0, 1, 1, 1]
 
+
 def main():
-    answer = []
-    
-    def bfs(s):
+    def bfs(matrix, p):
+        y, x = p
+        matrix[y][x] = -1
         que = deque()
-        que.append(s)
+        que.append(p)
         while que:
             y, x = que.popleft()
-            matrix[y][x] = -1
             for i in range(8):
                 nx = x + dx[i]
                 ny = y + dy[i]
-                if 0<=nx<m and 0<=ny<n and matrix[ny][nx] == 1:
+                if 0 <= nx < m and 0 <= ny < n and matrix[ny][nx] == 1:
+                    matrix[ny][nx] = -1
                     que.append((ny, nx))
 
     while True:
         m, n = map(int, input().split())
-    
-        if m == 0 and n == 0: break
+
+        if (m, n) == (0, 0):
+            break
 
         matrix = [list(map(int, input().split())) for _ in range(n)]
-        res = 0
+        answer = 0
+
         for i in range(n):
-            for j in range(m): 
+            for j in range(m):
                 if matrix[i][j] == 1:
-                    bfs((i, j))
-                    res += 1
-        answer.append(res)
+                    bfs(matrix, (i, j))
+                    answer += 1
 
-    for i in answer: print(i)
+        print(answer)
 
-if __name__ == "__main__":
-    main()
+
+main()
