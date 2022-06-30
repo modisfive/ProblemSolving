@@ -7,7 +7,7 @@ arr = [1, 1, 1, 2, 2, 3, 4, 4, 4]
 
 
 def lower_bound(arr, k):
-    left, right = 0, len(arr)
+    left, right = 0, len(arr) - 1
 
     while left < right:
         mid = (left + right) // 2
