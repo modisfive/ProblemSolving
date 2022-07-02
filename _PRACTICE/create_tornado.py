@@ -8,7 +8,7 @@ def create(n):
     x, y = n // 2, n // 2
     graph = [[0] * n for _ in range(n)]
 
-    dx = [-1, 0, 1, 0]
+    dx = [-1, 0, 1, 0]  # 좌 하 우 상
     dy = [0, 1, 0, -1]
     depth = 0
     num = 1
