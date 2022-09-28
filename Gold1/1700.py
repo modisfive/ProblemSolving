@@ -15,12 +15,18 @@ for idx, item in enumerate(order):
 
     elif len(plugs) < n:
         plugs.append(item)
-        
 
-    t
     else:
+        max_idx = 0
+        target = None
         for p in plugs:
             if p not in order[idx:]:
-
+                target = p
+                break
+            elif order[idx:].index(p) > max_idx:
+                max_idx = order[idx:].index(p)
+                target = p
+        plugs[plugs.index(target)] = item
+        answer += 1
 
 print(answer)
