@@ -1,4 +1,3 @@
-import re
 import sys
 
 input = sys.stdin.readline
