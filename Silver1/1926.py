@@ -1,44 +1,42 @@
 import sys
-input = sys.stdin.readline
 from collections import deque
 
-dx = [1, 0, -1, 0]
-dy = [0, -1, 0, 1]
+input = sys.stdin.readline
 
-def main():
-    m, n = map(int, input().split())
-    matrix = [list(map(int, input().split())) for _ in range(m)]
-    visited = [[0]*n for _ in range(m)]
+dx = (1, 0, -1, 0)
+dy = (0, -1, 0, 1)
 
-    def bfs(p):
-        y, x = p
-        matrix[y][x] = -1
 
-        que = deque()
-        que.append(p)
-        cnt = 0
+n, m = map(int, input().split())
+matrix = [list(map(int, input().split())) for _ in range(n)]
 
-        while que:
-            y, x = que.popleft()
-            cnt += 1
-            for i in range(4):
-                nx = x + dx[i]
-                ny = y + dy[i]
-                if 0<=nx<n and 0<=ny<m and matrix[ny][nx] == 1:
-                    matrix[ny][nx] = -1
-                    que.append((ny, nx))
+paints = 0
+max_size = 0
 
-        return cnt
 
-    answer = []
+def bfs(y, x):
+    cnt = 1
+    que = deque()
+    que.append((y, x))
+    matrix[y][x] = 0
+    while que:
+        y, x = que.popleft()
+        for i in range(4):
+            ny = y + dy[i]
+            nx = x + dx[i]
+            if 0 <= ny < n and 0 <= nx < m and matrix[ny][nx] == 1:
+                cnt += 1
+                matrix[ny][nx] = 0
+                que.append((ny, nx))
+    return cnt
 
-    for i in range(m):
-        for j in range(n):
-            if matrix[i][j] == 1:
-                answer.append(bfs((i,j)))
 
-    print(len(answer))
-    print(max(answer)) if len(answer) != 0 else print(0)
+for i in range(n):
+    for j in range(m):
+        if matrix[i][j] == 1:
+            paints += 1
+            max_size = max(max_size, bfs(i, j))
 
-if __name__ == "__main__":
-    main()
+
+print(paints)
+print(max_size)
