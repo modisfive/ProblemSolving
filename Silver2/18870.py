@@ -8,15 +8,13 @@ n = int(input())
 numbers = list(map(int, input().split()))
 
 sorted_numbers = sorted(list(set(numbers)))
-curr = sorted_numbers[0]
+idx = 0
 convert = defaultdict(int)
-for i in range(1, len(sorted_numbers)):
-    if sorted_numbers[i] != curr:
-        convert[sorted_numbers[i]] = convert[curr] + 1
-        curr = sorted_numbers[i]
+for num in sorted_numbers:
+    convert[num] += idx
+    idx += 1
 
-answer = []
-for n in numbers:
-    answer.append(convert[n])
+
+answer = [convert[x] for x in numbers]
 
 print(*answer)
