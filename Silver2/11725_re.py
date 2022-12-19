@@ -1,30 +1,28 @@
 import sys
 
-sys.setrecursionlimit(10**5)
+sys.setrecursionlimit(10**6)
+
+input = sys.stdin.readline
 
 
-def main():
-    n = int(sys.stdin.readline())
-    matrix = [[] * (n + 1) for _ in range(n + 1)]
-    for _ in range(n - 1):
-        b, a = map(int, sys.stdin.readline().split())
-        matrix[b].append(a)
-        matrix[a].append(b)
+n = int(input())
+matrix = [[] * (n + 1) for _ in range(n + 1)]
+for _ in range(n - 1):
+    a, b = map(int, input().split())
+    matrix[a].append(b)
+    matrix[b].append(a)
 
-    answer = {}
-    check = [False for _ in range(n + 1)]
-
-    def dfs(num):
-        for i in matrix[num]:
-            if not check[i]:
-                answer[i] = num
-                check[i] = True
-                dfs(i)
-
-    dfs(1)
-    for i in range(2, n + 1):
-        print(answer[i])
+answer = [0] * (n + 1)
 
 
-if __name__ == "__main__":
-    main()
+def dfs(num):
+    for i in matrix[num]:
+        if answer[i] == 0:
+            answer[i] = num
+            dfs(i)
+
+
+dfs(1)
+
+for i in range(2, n + 1):
+    print(answer[i])
